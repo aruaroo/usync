@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyJointJS05</title>
+    <link rel="stylesheet" type="text/css" href="../css/joint.css" />
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" src="../js/lodash.js"></script><!--order matters-->
+	<script type="text/javascript" src="../js/backbone.js"></script>
+	<script type="text/javascript" src="../js/joint.js"></script>
+</head>
+<body>
+<div id="myDiv"></div>
+<script type="text/javascript">
+ 
+    var graph=new joint.dia.Graph;  //创建模型
+ 
+    var  paper=new joint.dia.Paper({
+        el: $('#myDiv'),      //纸放在哪
+        width: 1000,            //纸多大
+        height: 500,
+        model: graph,       //纸里有什么
+        gridSize: 1,
+        clickThreshold: 1
+    });  //注意Paper,js对大小写敏感
+
+    paper.on('cell:pointerdown', 
+    function(cellView, evt, x, y) { 
+        //console.log('cell view ' + cellView.model.id + ' was clicked'); 
+        //alert(cellView.model.prop('attrs/text'))
+        if (cellView.model.id === rect.id) {
+            console.log("good")
+        }
+    }
+    );
+    
+ 
+    var rect=new joint.shapes.basic.Rect({  //绘制元素
+        //markup: {'<g class="rotatable"><g class="scalable"><image id="myrect1"  class="myclass"/></g><text/></g>'},
+        position:{x: 100 , y: 70},
+        size: {width: 100 ,height: 30},
+        attrs: {rect: {fill: 'pink' }, text: {text: 'QLY' , fill: 'white'} }
+    });
+    console.log(rect.id)
+ 
+    var rect1=rect.clone();
+    rect1.translate(300);
+ 
+    var link=new joint.dia.Link({
+        source: { id:rect.id },
+        target: { id:rect1.id }
+    });
+	var link1=link.clone();
+    
+ 
+   link.set('smooth', true)
+   link.attr({
+        '.connection': { stroke: 'blue' },
+        '.marker-source': { fill: 'red', d: 'M 10 0 L 0 5 L 10 10 z' },
+        '.marker-target': { fill: 'yellow', d: 'M 10 0 L 0 5 L 10 10 z' }
+    });
+ 
+/*   link1.attr({
+        '.connection': { stroke: '#e74c3c' ,'stroke-width':5, d:'M 20 60 L 206 62 L 240 60' },
+        '.marker-source': { fill: '#e74c3c', d: 'M 10 0 L 0 5 L 10 10 z' },
+        '.marker-target': { fill: '#e74c3c', d: 'M 10 0 L 0 5 L 10 10 z' }
+    }); */
+ 
+/* 	var link2=link.clone();
+    link2.attr({
+        '.connection': { stroke: '#3498db' ,'stroke-dasharray':(10,5),'stroke-width':6, d:'M 30 100 L 245 96 L 226 81' },
+        '.marker-source': { fill: '#3498db', d: 'M 5.5 15.499 L 15.8 21.447 L 15.8 15.846 L 25.5 21.447 L 25.5 9.552 L 15.8 15.152 L 15.8 9.552 Z' },
+        '.marker-target': { fill: '#3498db', d: 'M 4.834 4.834 L 4.833 4.833 c -5.889 5.892 -5.89 15.443 0.001 21.334 s 15.44 5.888 21.33 -0.002 c 5.891 -5.891 5.893 -15.44 0.002 -21.33 C 20.275 -1.056 10.725 -1.056 4.834 4.834 Z M 25.459 5.542 c 0.833 0.836 1.523 1.757 2.104 2.726 l -4.08 4.08 c -0.418 -1.062 -1.053 -2.06 -1.912 -2.918 c -0.859 -0.859 -1.857 -1.494 -2.92 -1.913 l 4.08 -4.08 C 23.7 4.018 24.622 4.709 25.459 5.542 Z M 10.139 20.862 c -2.958 -2.968 -2.959 -7.758 -0.001 -10.725 c 2.966 -2.957 7.756 -2.957 10.725 0 c 2.954 2.965 2.955 7.757 -0.001 10.724 C 17.896 23.819 13.104 23.817 10.139 20.862 Z M 5.542 25.459 c -0.833 -0.837 -1.524 -1.759 -2.105 -2.728 l 4.081 -4.081 c 0.418 1.063 1.055 2.06 1.914 2.919 c 0.858 0.859 1.855 1.494 2.917 1.913 l -4.081 4.081 C 7.299 26.982 6.379 26.292 5.542 25.459 Z M 8.268 3.435 l 4.082 4.082 C 11.288 7.935 10.29 8.571 9.43 9.43 c -0.858 0.859 -1.494 1.855 -1.912 2.918 L 3.436 8.267 c 0.58 -0.969 1.271 -1.89 2.105 -2.727 C 6.377 4.707 7.299 4.016 8.268 3.435 Z M 22.732 27.563 l -4.082 -4.082 c 1.062 -0.418 2.061 -1.053 2.919 -1.912 c 0.859 -0.859 1.495 -1.857 1.913 -2.92 l 4.082 4.082 c -0.58 0.969 -1.271 1.891 -2.105 2.728 C 24.623 26.292 23.701 26.983 22.732 27.563 Z'}
+    });
+ */
+/*    graph.addCells([rect,rect1,link,link1,link2]); */
+	
+
+    // var rect55 = new joint.shapes.basic.Rect({
+    //     position:{x: 200 , y: 10},
+    // markup: '<g class="rotatable"><g class="scalable"><image id="myrect1"  class="myclass"/></g><text/></g>',
+    // size: {width: 100 ,height: 30},
+    //     attrs: {rect: {fill: 'pink' }, text: {text: 'BLOCK' , fill: 'white'} }
+    // });
+
+
+ 
+
+
+    // $(document).on('click', '.myclass', function () {
+    //     //alert('yayy!');
+    // });
+
+
+
+	graph.addCells([rect,rect1,link]);
+	
+	
+    
+</script>
+</body>
+</html>
+
